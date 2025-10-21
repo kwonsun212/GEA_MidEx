@@ -19,24 +19,25 @@ public class PlayerController : MonoBehaviour
     public float attackDuration = 0.8f;
     public bool canmoveWhileAttacking = false;
 
-    [Header("컴포넌트")]
-    public Animator animator;
+    [Header("컴포넌트")] 
+    public Animator animator; 
 
-    private CharacterController controller;
-    private Camera playerCamera;
+    private CharacterController controller; 
+    private Camera playerCamera; 
 
     //현재상태
-    private float currentSpeed;
-    private bool isAttacking = false;           //공격중인지 체크
-    private bool isLanding = false;             //착지 중인지 체크
-    private float landingTimer;                 //착지 타이머
+    private float currentSpeed; 
+    private bool isAttacking = false; //공격중인지 체크
+    private bool isLanding = false; //착지 중인지 체크
+    private float landingTimer; //착지 타이머
 
     private Vector3 velocity;
     private bool isGrounded;
-    private bool wasGrounded;                   //이전 프레임에 땅 이었는지
+    private bool wasGrounded; //이전 프레임에 땅 이었는지
+
     private float attackTimer;
 
-    private bool isUIMode = false;              //UI 모드 설정
+    private bool isUIMode = false; //UI 모드 설정
 
 
     // Start is called before the first frame update
@@ -107,27 +108,31 @@ public class PlayerController : MonoBehaviour
 
     void HandleAttack()
     {
-        if (isAttacking)                         //공격 중일때
+        // 현재 타 모션 재생 중
+        if (isAttacking)
         {
-            attackTimer -= Time.deltaTime;      //타이머를 감소 시킨다.
-            if (attackTimer <= 0)
+            attackTimer -= Time.deltaTime;
+            if (attackTimer <= 0f)
             {
                 isAttacking = false;
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) && !isAttacking)            //공격중이 아닐때 키를 누르면 공격
+
+        if (Input.GetMouseButton(0) && !isAttacking) //공격중이 아닐때 키를 누르면 공격
         {
             Debug.Log("공격중");
-            isAttacking = true;                 //공격중 표시
-            attackTimer = attackDuration;          //타이머 리필
+            isAttacking = true; //공격중 표시
+            attackTimer = attackDuration; //타이머 리필
 
             if (animator != null)
             {
                 animator.SetTrigger("attackTrigger");
-            }
-        }
 
+            }
+
+
+        }
     }
     void HandleJump()
     {
