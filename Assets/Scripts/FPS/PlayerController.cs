@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerC : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("¿Ãµø")]
     public float moveSpeed = 6f;
@@ -58,4 +58,3 @@ public class PlayerC : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
     }
 }
-

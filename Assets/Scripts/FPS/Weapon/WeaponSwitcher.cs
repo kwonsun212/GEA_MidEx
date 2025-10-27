@@ -9,6 +9,12 @@ public class WeaponSwitcher : MonoBehaviour
 
     void Update()
     {
+
+        WeaponBase current = Current;
+
+        if (current != null && current.isReloading)
+            return;
+
         // 1,2,3...
         for (int i = 0; i < weapons.Length && i < 9; i++)
             if (Input.GetKeyDown(KeyCode.Alpha1 + i)) Equip(i);
