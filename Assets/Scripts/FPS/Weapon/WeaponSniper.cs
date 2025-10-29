@@ -15,7 +15,7 @@ public class WeaponSniper : WeaponBase
     public float moveSpreadBonus = 0.8f;  // 이동 중 추가
 
     [Header("Zoom / Sensitivity")]
-    public float sniperAdsFOV = 30f;      // 강한 줌
+    public float sniperAdsFOV = 1f;      // 강한 줌
     public float hipMouseSensMult = 1.0f; // 평상시
     public float adsMouseSensMult = 0.45f;// 줌 시 감도 감소
 
@@ -100,7 +100,7 @@ public class WeaponSniper : WeaponBase
         var ml = look;
         if (ml)
         {
-            float up = isAiming ? 0.6f : 1.6f;
+            float up = isAiming ? 0.3f : 0.3f;
             float side = isAiming ? 0.1f : Random.Range(-0.8f, 0.8f);
             ml.AddRecoil(up, side);
         }

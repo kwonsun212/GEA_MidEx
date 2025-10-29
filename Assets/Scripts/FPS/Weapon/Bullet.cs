@@ -9,8 +9,8 @@ public class Bullet : MonoBehaviour
     public LayerMask hitMask;           // Enemy | Environment
     public GameObject hitVFX;
 
-    Rigidbody rb;
-    float life;
+    private Rigidbody rb;
+    private float life;
 
     void Awake()
     {
@@ -30,23 +30,34 @@ public class Bullet : MonoBehaviour
     void Update()
     {
         life -= Time.deltaTime;
-        if (life <= 0f) Destroy(gameObject); // 풀링 쓰면 Despawn으로 교체
+        if (life <= 0f)
+            Destroy(gameObject); // 풀링 쓰면 Despawn으로 교체
     }
 
     void OnCollisionEnter(Collision col)
     {
-        // 맞은 지점/노멀
+        // --- Enemy 태그 감지 ---
+        if (col.collider.CompareTag("Enemy"))
+        {
+            // 적에 맞으면 바로 삭제
+            if (hitVFX)
+                Instantiate(hitVFX, col.GetContact(0).point, Quaternion.identity);
+
+            Destroy(gameObject);
+            return; // 아래 로직은 실행 안 함
+        }
+
+        // --- 일반 데미지 처리 ---
         var contact = col.GetContact(0);
         var point = contact.point;
         var normal = contact.normal;
 
-        // 데미지 처리
         if (col.collider.TryGetComponent<IDamageable>(out var dmg))
             dmg.TakeDamage(damage, point, normal);
 
-        // 히트 VFX
-        if (hitVFX) Instantiate(hitVFX, point, Quaternion.LookRotation(normal));
+        if (hitVFX)
+            Instantiate(hitVFX, point, Quaternion.LookRotation(normal));
 
-        Destroy(gameObject); // 풀링이면 Despawn
+        Destroy(gameObject);
     }
 }
